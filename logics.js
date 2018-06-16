@@ -7,10 +7,10 @@
 
 
 
-// 2. Create button for adding new employees - then update the html + update the database
+// 2. Create button for adding new trains - then update the html + update the database
 
 
-// 3. Create a way to retrieve employees from the employee database.
+// 3. Create a way to retrieve trains from the train database.
 // 4. Create a way to calculate the months worked. Using difference between start and current time.
 //    Then use moment.js formatting to set difference in months.
 // 5. Calculate Total billed
@@ -29,35 +29,36 @@ var config = {
   
   
   
-  // 2. Button for adding Employees
-  $("#add-employee-btn").on("click", function(event) {
+  // 2. Button for adding trains
+  $("#add-train-btn").on("click", function(event) {
     event.preventDefault();
     
-    var EmployeeData={
+    var trainData={
       
-      name: $("#employee-name-input").val().trim(),
-      role: $("#role-input").val().trim(),
-      startDate: $("#start-input").val().trim(),
-      rate: $("#rate-input").val().trim(),
+      name: $("#train-name-input").val().trim(),
+      destination: $("#destination-input").val().trim(),
+      arrivalTime: $("#arrival-input").val().trim(),
+      frequency: $("#frequency-input").val().trim(),
     }
     
-    database.ref().push(EmployeeData);
+    database.ref().push(trainData);
   });
   
   database.ref().on("child_added", function(snapshot){
   console.log(snapshot).val();
-  $("#employee-table").append("<tr><td>" + name + "</td></tr>")
+  $("#train-table").append("<tr><td>" + name + "</td></tr>")
   
-  
+  console.log(moment().format("DD/MM/YY hh:mm A"));
+
   
   });
   
-  // 3. Create Firebase event for adding employee to the database and a row in the html when a user adds an entry
+  // 3. Create Firebase event for adding train to the database and a row in the html when a user adds an entry
   
   
   // Example Time Math
   // -----------------------------------------------------------------------------
-  // Assume Employee start date of January 1, 2015
+  // Assume train start date of January 1, 2015
   // Assume current date is March 1, 2016
   
   // We know that this is 15 months.
