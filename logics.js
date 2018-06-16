@@ -17,12 +17,12 @@
 
 // 1. Initialize Firebase
 var config = {
-    apiKey: "AIzaSyA9LBK4zO-VfWgJM3TTxmyEVGAwqbkYmYw",
-    authDomain: "timesheet-19e46.firebaseapp.com",
-    databaseURL: "https://timesheet-19e46.firebaseio.com",
-    projectId: "timesheet-19e46",
-    storageBucket: "timesheet-19e46.appspot.com",
-    messagingSenderId: "505941642862"
+    apiKey: "AIzaSyDoU5ipoRKozfJd2HT98wvIgJ7HP5j_HJk",
+    authDomain: "train-schedule-1529164524229.firebaseapp.com",
+    databaseURL: "https://train-schedule-1529164524229.firebaseio.com",
+    projectId: "train-schedule-1529164524229",
+    storageBucket: "",
+    messagingSenderId: "807445527719"
   };
   firebase.initializeApp(config);
   var database=firebase.database();
@@ -45,9 +45,15 @@ var config = {
   });
   
   database.ref().on("child_added", function(snapshot){
-  console.log(snapshot).val();
-  $("#train-table").append("<tr><td>" + name + "</td></tr>")
-  
+  console.log(snapshot.val());
+  var newRow = $("<tr>");
+  var nameD = $("<td>").text(snapshot.val().name);
+  var destD = $("<td>").text(snapshot.val().destination);
+  var arrivD = $("<td>").text(snapshot.val().arrivalTime);
+  var freqD = $("<td>").text(snapshot.val().frequency);
+  newRow.append(nameD, destD, arrivD, freqD);
+  $("#train-table").append(newRow);
+
   console.log(moment().format("DD/MM/YY hh:mm A"));
 
   
