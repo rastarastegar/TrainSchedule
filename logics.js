@@ -1,20 +1,5 @@
 /* global firebase moment */
 // Steps to complete:
-
-// 1. Initialize Firebase
-
-
-
-
-
-// 2. Create button for adding new trains - then update the html + update the database
-
-
-// 3. Create a way to retrieve trains from the train database.
-// 4. Create a way to calculate the months worked. Using difference between start and current time.
-//    Then use moment.js formatting to set difference in months.
-// 5. Calculate Total billed
-
 // 1. Initialize Firebase
 var config = {
     apiKey: "AIzaSyDoU5ipoRKozfJd2HT98wvIgJ7HP5j_HJk",
@@ -26,9 +11,7 @@ var config = {
   };
   firebase.initializeApp(config);
   var database=firebase.database();
-  
-  
-  
+   
   // 2. Button for adding trains
   $("#add-train-btn").on("click", function(event) {
     event.preventDefault();
@@ -37,13 +20,19 @@ var config = {
       
       name: $("#train-name-input").val().trim(),
       destination: $("#destination-input").val().trim(),
-      arrivalTime: $("#arrival-input").val().trim(),
+      arrivalTime: moment($("#arrival-input").val().trim(), "HH:mm").subtract(1, "years") , // put the proper format you want to be converted to
       frequency: $("#frequency-input").val().trim(),
+           
     }
-    
+   
     database.ref().push(trainData);
   });
-  
+
+//   let currentTime = moment();
+//   let diffTimeInMinutes = moment().diff(moment(arrivalTime), "minutes");
+//   let reminder = diffTimeInMinutes%frequency;
+
+  // 3. Create a way to retrieve trains from the train database.
   database.ref().on("child_added", function(snapshot){
   console.log(snapshot.val());
   var newRow = $("<tr>");
@@ -51,11 +40,15 @@ var config = {
   var destD = $("<td>").text(snapshot.val().destination);
   var arrivD = $("<td>").text(snapshot.val().arrivalTime);
   var freqD = $("<td>").text(snapshot.val().frequency);
-  newRow.append(nameD, destD, arrivD, freqD);
+  var minutesAwayD = $("<td>").text(snapshot.val().arrivalTime- moment().format('hh:mm'));
+  
+  newRow.append(nameD, destD, arrivD, freqD, minutesAwayD);
   $("#train-table").append(newRow);
 
-  console.log(moment().format("DD/MM/YY hh:mm A"));
+  // 4. Create a way to calculate the months worked. Using difference between start and current time.
+//    Then use moment.js formatting to set difference in months.
 
+  console.log(moment().format("hh:mm A"));
   
   });
   
